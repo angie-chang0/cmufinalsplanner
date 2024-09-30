@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMU Finals Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FEFAE0; /* Changed the background to a solid color */
+        }   
+
+        .container {
+            width: 90%;
+            margin: auto;
+            padding-top: 20px;
+        }
+
+        header {
+            text-align: left;
+            margin-bottom: 60px;
+        }
+        .header-content {
+            display: flex;
+            align-items: center; /* Aligns the text and image vertically */
+            gap: 20px; /* Space between the header text and the image */
+        }
+
+        .header-image {
+            width: 100px; /* Set a fixed width for the image */
+            height: auto;  /* Maintain aspect ratio */
+        }
+
+        h1 {
+            font-weight: 1200;
+            font-size: 3.5rem;
+            color: #74804B;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #5e6e34;
+        }
+
+        f {
+            font-size: 1.7rem;
+
+            color: #5e6e34;
+        }
+
+        .credits {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-style: italic;
+        }
+
+        .credits a {
+            color: #74804B; /* Same color as header */
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .credits a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Grey out the background */
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 10px; /* Rounded box */
+            width: 300px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Close button */
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .search-icon-wrapper {
+            position: relative;
+            width: 60%;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7c8555; /* Adjust the color of the icon */
+            font-size: 1.2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 12px 12px 40px; /* Add padding on the left for the icon */
+            border-radius: 25px;
+            border: 2px solid #d0d2a5;
+            font-size: 1.2rem;
+            outline: none;
+        }
+
+
+        .instruction {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #7c8555;
+        }
+
+        .instruction a {
+            color: #76a58d;
+            text-decoration: none;
+        }
+
+        .instruction a:hover {
+            text-decoration: underline;
+        }
+
+        /* Updated to add the gradient inside the card container */
+        .card-container-wrapper {
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 30px;
+            background: linear-gradient(to top, #FEFAE0, #E3EACA); /* Gradient inside the card container */
+            padding: 10px;
+            border-radius: 15px; /* Optional: Add rounded corners */
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-height: 600px;
+            max-width: 1500px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .card-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .card-container::-webkit-scrollbar-thumb {
+            background-color: #AFB393;
+            border-radius: 10px;
+        }
+
+        .card-container::-webkit-scrollbar-track {
+            background-color: #ffffff;
+            border-radius: 10px;
+        }
+
+        .card {
+            background-color: #F9C491;
+            border-radius: 20px;
+            padding: 20px;
+            width: 365px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .white-box {
+            background-color: #F6E2CE;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .course-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px; /* Add some space between text and the button */
+        }
+
+        .course-number {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #280A0A;
+        }
+
+        .add-button {
+            background-color: #fff;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #b73a36;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0; /* Prevent the button from shrinking */
+        }
+
+        .add-button:hover {
+            background-color: #f4b942;
+        }
+
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #280A0A;
+            white-space: nowrap; /* Prevents text from wrapping */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Adds '...' if the text is too long */
+        }
+
+        .instructor {
+            font-size: 0.8rem;
+            color: #280A0A;
+            margin-top: 5px;
+        }
+
+        .add-button {
+            background-color: #fff;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #b73a36;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-button:hover {
+            background-color: #f4b942;
+        }
+
+        .course-details {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .course-time-location, .course-date-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-time {
+            color: #8C2C2C;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .course-location {
+            color: #8d4e4e;
+            font-size: 0.9rem;
+        }
+
+        .course-date {
+            color: #8C2C2C;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .course-section {
+            color: #8d4e4e;
+            font-size: 0.9rem;
+        }
+
+        .course-subject {
+            color: #d1571f;
+            font-size: 0.9rem;
+            font-style: italic;
+            text-align: left;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Credits link at top right -->
+        <div class="credits">
+            <a href="#" id="openModal">Credits/Report Problem</a>
+        </div>
+
+        <header>
+            <div class="header-content">
+                <h1>Its Finals Season. Good luck Y’all!</h1>
+                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9d5c65cc-66e5-4be2-8c7a-4894cfc6581f/d4vzsbe-fce42f0a-c1c9-4c21-9934-8b2544afc336.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzlkNWM2NWNjLTY2ZTUtNGJlMi04YzdhLTQ4OTRjZmM2NTgxZlwvZDR2enNiZS1mY2U0MmYwYS1jMWM5LTRjMjEtOTkzNC04YjI1NDRhZmMzMzYuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.mtiwsju9fRiwDXQ2GMAkW1vFDnZgK3j8kfAk2nUdft8" 
+                     alt="CMU Logo" class="header-image">
+            </div>
+            <f>Carnegie Mellon University Finals Planner</f>
+        </header>
+
+        <div class="search-bar">
+            <div class="search-icon-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" placeholder="Search Course Number, Title, or Subject">
+            </div>
+        </div>
+             
+
+        <p class="instruction">Click '+' to add final to your google calendar. View official schedule <a href="#">Here</a>.</p>
+
+        <div class="card-container-wrapper">
+            <div class="card-container">
+                <!-- Cards will be dynamically generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup Structure -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <p>Created by Angie Chang</p>
+        </div>
+    </div>
+
+    <!-- Include the local version of SheetJS -->
+    <script src="js/xlsx.full.min.js"></script>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById("modal");
+        const openModalBtn = document.getElementById("openModal");
+        const closeModalBtn = document.querySelector(".close-btn");
+
+        // Open the modal
+        openModalBtn.addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent link from navigating
+            modal.style.display = "block";
+        });
+
+        // Close the modal when "X" is clicked
+        closeModalBtn.addEventListener("click", function () {
+            modal.style.display = "none";
+        });
+
+        // Close the modal when clicking outside of the modal-content box
+        window.addEventListener("click", function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        });
+    </script>
+</body>
+
+    <!-- Include the local version of SheetJS -->
+    <script src="js/xlsx.full.min.js"></script>
+
+    <script>
+        let coursesData = []; // Store the courses data globally
+    
+        async function loadSpreadsheet() {
+            const file = 'data/sample_finals.xlsx';  // Path to your local file
+        
+            try {
+                const response = await fetch(file);
+                const arrayBuffer = await response.arrayBuffer();
+                const data = new Uint8Array(arrayBuffer);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                
+                // Convert sheet to JSON
+                coursesData = XLSX.utils.sheet_to_json(sheet); // Store the courses data globally
+                console.log("Spreadsheet data:", coursesData);  // Log the data to console
+                
+                // Populate the cards with the course data
+                populateCards(coursesData);
+            } catch (error) {
+                console.error("Error loading the spreadsheet:", error);
+            }
+        }
+        
+        function populateCards(courses) {
+            const cardContainer = document.querySelector('.card-container');
+            cardContainer.innerHTML = '';  // Clear existing cards
+    
+            // Loop through courses and create cards
+            courses.forEach(course => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="white-box">
+                        <div class="course-info">
+                            <div>
+                                <p class="course-number">${course['Course Number'] || 'N/A'}</p>
+                                <p class="course-title">${course['Course Title'] || 'N/A'}</p>
+                                <p class="instructor">${course['Instructor'] || 'N/A'}</p>
+                            </div>
+                            <div class="add-button">+</div>
+                        </div>
+                    </div>
+                    <div class="course-details">
+                        <div class="course-time-location">
+                            <p class="course-time">${course['Time'] || 'N/A'}</p>
+                            <p class="course-location">${course['Location'] || 'N/A'}</p>
+                        </div>
+                        <div class="course-date-section">
+                            <p class="course-date">${course['Date'] || 'N/A'}</p>
+                            <p class="course-section">${course['Section'] || 'N/A'}</p>
+                        </div>
+                    </div>
+                    <p class="course-subject">${course['Subject'] || 'N/A'}</p>
+                `;
+                cardContainer.appendChild(card);
+            });
+        }
+    
+        // Function to filter courses based on search input
+        function filterCourses() {
+            const searchInput = document.querySelector('.search-bar input').value.toLowerCase();
+            
+            const filteredCourses = coursesData.filter(course => {
+                const courseNumber = course['Course Number']?.toString().toLowerCase() || '';
+                const courseTitle = course['Course Title']?.toLowerCase() || '';
+                const courseSubject = course['Subject']?.toLowerCase() || '';
+                
+                return (
+                    courseNumber.includes(searchInput) ||
+                    courseTitle.includes(searchInput) ||
+                    courseSubject.includes(searchInput)
+                );
+            });
+    
+            // Repopulate cards with the filtered results
+            populateCards(filteredCourses);
+        }
+    
+        window.onload = () => {
+            loadSpreadsheet();
+    
+            // Add event listener for search input
+            document.querySelector('.search-bar input').addEventListener('input', filterCourses);
+        };
+    </script>
+    
+    
+</body>
+</html>

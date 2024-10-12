@@ -16,8 +16,8 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #FEFAE0; /* Changed the background to a solid color */
-        }   
+            background-color: #FEFAE0;
+        }
 
         .container {
             width: 90%;
@@ -29,15 +29,16 @@
             text-align: left;
             margin-bottom: 60px;
         }
+
         .header-content {
             display: flex;
-            align-items: center; /* Aligns the text and image vertically */
-            gap: 20px; /* Space between the header text and the image */
+            align-items: center;
+            gap: 20px;
         }
 
         .header-image {
-            width: 100px; /* Set a fixed width for the image */
-            height: auto;  /* Maintain aspect ratio */
+            width: 100px;
+            height: auto;
         }
 
         h1 {
@@ -53,7 +54,6 @@
 
         f {
             font-size: 1.7rem;
-
             color: #5e6e34;
         }
 
@@ -65,7 +65,7 @@
         }
 
         .credits a {
-            color: #74804B; /* Same color as header */
+            color: #74804B;
             text-decoration: none;
             font-size: 0.9rem;
         }
@@ -74,9 +74,8 @@
             text-decoration: underline;
         }
 
-        /* Modal styles */
         .modal {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
             z-index: 1000;
             left: 0;
@@ -84,7 +83,7 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5); /* Grey out the background */
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         .modal-content {
@@ -92,13 +91,12 @@
             margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
-            border-radius: 10px; /* Rounded box */
+            border-radius: 10px;
             width: 300px;
             text-align: center;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* Close button */
         .close-btn {
             color: #aaa;
             float: right;
@@ -130,19 +128,18 @@
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #7c8555; /* Adjust the color of the icon */
+            color: #7c8555;
             font-size: 1.2rem;
         }
 
         .search-bar input {
             width: 100%;
-            padding: 12px 12px 12px 40px; /* Add padding on the left for the icon */
+            padding: 12px 12px 12px 40px;
             border-radius: 25px;
             border: 2px solid #d0d2a5;
             font-size: 1.2rem;
             outline: none;
         }
-
 
         .instruction {
             text-align: center;
@@ -159,38 +156,53 @@
             text-decoration: underline;
         }
 
-        /* Updated to add the gradient inside the card container */
         .card-container-wrapper {
             display: flex;
             justify-content: center;
             overflow: hidden;
             margin-top: 30px;
-            background: linear-gradient(to top, #FEFAE0, #E3EACA); /* Gradient inside the card container */
+            background: linear-gradient(to top, #FEFAE0, #E3EACA);
             padding: 10px;
-            border-radius: 15px; /* Optional: Add rounded corners */
+            border-radius: 15px;
         }
 
-        .card-container {
+        .subject-section-container {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: flex-start;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .subject-section {
+            width: 100%;
+        }
+
+        .subject-section h2 {
+            font-size: 2rem;
+            color: #7c8555;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subject-section .card-container {
+            display: flex;
+            flex-wrap: wrap; /* Cards wrap to the next line */
+            justify-content: space-between;
             gap: 20px;
-            max-height: 600px;
-            max-width: 1500px;
-            overflow-y: auto;
-            padding: 10px;
+            overflow-x: auto; /* Enable horizontal scrolling */
         }
 
-        .card-container::-webkit-scrollbar {
-            width: 8px;
+        .subject-section .card-container::-webkit-scrollbar {
+            height: 8px;
         }
 
-        .card-container::-webkit-scrollbar-thumb {
+        .subject-section .card-container::-webkit-scrollbar-thumb {
             background-color: #AFB393;
             border-radius: 10px;
         }
 
-        .card-container::-webkit-scrollbar-track {
+        .subject-section .card-container::-webkit-scrollbar-track {
             background-color: #ffffff;
             border-radius: 10px;
         }
@@ -199,11 +211,20 @@
             background-color: #F9C491;
             border-radius: 20px;
             padding: 20px;
-            width: 365px;
+            width: 32%; /* Fixed width to allow 3 cards per row */
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            /* Maintain consistent size */
+            min-height: 200px;
+        }
+
+        /* Ensures the text stays consistent and handles overflow gracefully */
+        .course-title, .course-number, .instructor {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Add ellipsis (...) when text is too long */
         }
 
         .white-box {
@@ -217,7 +238,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px; /* Add some space between text and the button */
+            gap: 10px;
         }
 
         .course-number {
@@ -239,7 +260,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: background-color 0.3s ease;
-            flex-shrink: 0; /* Prevent the button from shrinking */
+            flex-shrink: 0;
         }
 
         .add-button:hover {
@@ -250,34 +271,15 @@
             font-size: 1.2rem;
             font-weight: 500;
             color: #280A0A;
-            white-space: nowrap; /* Prevents text from wrapping */
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; /* Adds '...' if the text is too long */
+            text-overflow: ellipsis;
         }
 
         .instructor {
             font-size: 0.8rem;
             color: #280A0A;
             margin-top: 5px;
-        }
-
-        .add-button {
-            background-color: #fff;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: #b73a36;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .add-button:hover {
-            background-color: #f4b942;
         }
 
         .course-details {
@@ -303,7 +305,7 @@
 
         .course-date {
             color: #8C2C2C;
-            font-size: 1rem;
+            font-size: 0.8rem;
             font-weight: 500;
         }
 
@@ -319,11 +321,11 @@
             text-align: left;
             margin-top: 5px;
         }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Credits link at top right -->
         <div class="credits">
             <a href="#" id="openModal">Credits/Report Problem</a>
         </div>
@@ -331,7 +333,7 @@
         <header>
             <div class="header-content">
                 <h1>Its Finals Season. Good luck Y’all!</h1>
-                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9d5c65cc-66e5-4be2-8c7a-4894cfc6581f/d4vzsbe-fce42f0a-c1c9-4c21-9934-8b2544afc336.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzlkNWM2NWNjLTY2ZTUtNGJlMi04YzdhLTQ4OTRjZmM2NTgxZlwvZDR2enNiZS1mY2U0MmYwYS1jMWM5LTRjMjEtOTkzNC04YjI1NDRhZmMzMzYuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.mtiwsju9fRiwDXQ2GMAkW1vFDnZgK3j8kfAk2nUdft8" 
+                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9d5c65cc-66e5-4be2-8c7a-4894cfc6581f/d4vzsbe-fce42f0a-c1c9-4c21-9934-8b2544afc336.gif" 
                      alt="CMU Logo" class="header-image">
             </div>
             <f>Carnegie Mellon University Finals Planner</f>
@@ -343,18 +345,15 @@
                 <input type="text" placeholder="Search Course Number, Title, or Subject">
             </div>
         </div>
-             
 
         <p class="instruction">Click '+' to add final to your google calendar. View official schedule <a href="#">Here</a>.</p>
 
         <div class="card-container-wrapper">
-            <div class="card-container">
-                <!-- Cards will be dynamically generated here -->
+            <div class="subject-section-container">
             </div>
         </div>
     </div>
 
-    <!-- Modal Popup Structure -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
@@ -362,43 +361,13 @@
         </div>
     </div>
 
-    <!-- Include the local version of SheetJS -->
     <script src="js/xlsx.full.min.js"></script>
 
     <script>
-        // Modal functionality
-        const modal = document.getElementById("modal");
-        const openModalBtn = document.getElementById("openModal");
-        const closeModalBtn = document.querySelector(".close-btn");
+        let coursesData = [];
 
-        // Open the modal
-        openModalBtn.addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent link from navigating
-            modal.style.display = "block";
-        });
-
-        // Close the modal when "X" is clicked
-        closeModalBtn.addEventListener("click", function () {
-            modal.style.display = "none";
-        });
-
-        // Close the modal when clicking outside of the modal-content box
-        window.addEventListener("click", function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        });
-    </script>
-</body>
-
-    <!-- Include the local version of SheetJS -->
-    <script src="js/xlsx.full.min.js"></script>
-
-    <script>
-        let coursesData = []; // Store the courses data globally
-    
         async function loadSpreadsheet() {
-            const file = 'data/sample_finals.xlsx';  // Path to your local file
+            const file = 'data/sample_finals.xlsx'; 
         
             try {
                 const response = await fetch(file);
@@ -409,11 +378,9 @@
                 const sheetName = workbook.SheetNames[0];
                 const sheet = workbook.Sheets[sheetName];
                 
-                // Convert sheet to JSON
-                coursesData = XLSX.utils.sheet_to_json(sheet); // Store the courses data globally
-                console.log("Spreadsheet data:", coursesData);  // Log the data to console
+                coursesData = XLSX.utils.sheet_to_json(sheet); 
+                console.log("Spreadsheet data:", coursesData);  
                 
-                // Populate the cards with the course data
                 populateCards(coursesData);
             } catch (error) {
                 console.error("Error loading the spreadsheet:", error);
@@ -421,41 +388,60 @@
         }
         
         function populateCards(courses) {
-            const cardContainer = document.querySelector('.card-container');
-            cardContainer.innerHTML = '';  // Clear existing cards
-    
-            // Loop through courses and create cards
-            courses.forEach(course => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `
-                    <div class="white-box">
-                        <div class="course-info">
-                            <div>
-                                <p class="course-number">${course['Course Number'] || 'N/A'}</p>
-                                <p class="course-title">${course['Course Title'] || 'N/A'}</p>
-                                <p class="instructor">${course['Instructor'] || 'N/A'}</p>
+            const subjectContainer = document.querySelector('.subject-section-container');
+            subjectContainer.innerHTML = '';  
+            
+            const groupedCourses = courses.reduce((groups, course) => {
+                const subject = course['Subject'] || 'Unknown';
+                if (!groups[subject]) {
+                    groups[subject] = [];
+                }
+                groups[subject].push(course);
+                return groups;
+            }, {});
+
+            for (const subject in groupedCourses) {
+                const subjectSection = document.createElement('div');
+                subjectSection.className = 'subject-section';
+                subjectSection.innerHTML = `<h2>${subject}</h2>`;
+
+                const cardContainer = document.createElement('div');
+                cardContainer.className = 'card-container';
+
+                groupedCourses[subject].forEach(course => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="white-box">
+                            <div class="course-info">
+                                <div>
+                                    <p class="course-number">${course['Course Number'] || 'N/A'}</p>
+                                    <p class="course-title">${course['Course Title'] || 'N/A'}</p>
+                                    <p class="instructor">${course['Instructor'] || 'N/A'}</p>
+                                </div>
+                                <div class="add-button">+</div>
                             </div>
-                            <div class="add-button">+</div>
                         </div>
-                    </div>
-                    <div class="course-details">
-                        <div class="course-time-location">
-                            <p class="course-time">${course['Time'] || 'N/A'}</p>
-                            <p class="course-location">${course['Location'] || 'N/A'}</p>
+                        <div class="course-details">
+                            <div class="course-time-location">
+                                <p class="course-time">${course['Time'] || 'N/A'}</p>
+                                <p class="course-location">${course['Location'] || 'N/A'}</p>
+                            </div>
+                            <div class="course-date-section">
+                                <p class="course-date">${course['Date'] || 'N/A'}</p>
+                                <p class="course-section">${course['Section'] || 'N/A'}</p>
+                            </div>
                         </div>
-                        <div class="course-date-section">
-                            <p class="course-date">${course['Date'] || 'N/A'}</p>
-                            <p class="course-section">${course['Section'] || 'N/A'}</p>
-                        </div>
-                    </div>
-                    <p class="course-subject">${course['Subject'] || 'N/A'}</p>
-                `;
-                cardContainer.appendChild(card);
-            });
+                        <p class="course-subject">${course['Subject'] || 'N/A'}</p>
+                    `;
+                    cardContainer.appendChild(card);
+                });
+
+                subjectSection.appendChild(cardContainer);
+                subjectContainer.appendChild(subjectSection);
+            }
         }
     
-        // Function to filter courses based on search input
         function filterCourses() {
             const searchInput = document.querySelector('.search-bar input').value.toLowerCase();
             
@@ -470,19 +456,15 @@
                     courseSubject.includes(searchInput)
                 );
             });
-    
-            // Repopulate cards with the filtered results
+
+            // Filter out entire sections that have no matching courses
             populateCards(filteredCourses);
         }
     
         window.onload = () => {
             loadSpreadsheet();
     
-            // Add event listener for search input
             document.querySelector('.search-bar input').addEventListener('input', filterCourses);
         };
     </script>
-    
-    
 </body>
-</html>

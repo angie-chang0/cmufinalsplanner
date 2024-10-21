@@ -187,10 +187,10 @@
 
         .subject-section .card-container {
             display: flex;
-            flex-wrap: wrap; /* Cards wrap to the next line */
+            flex-wrap: wrap;
             justify-content: space-between;
             gap: 20px;
-            overflow-x: auto; /* Enable horizontal scrolling */
+            overflow-x: auto;
         }
 
         .subject-section .card-container::-webkit-scrollbar {
@@ -211,20 +211,18 @@
             background-color: #F9C491;
             border-radius: 20px;
             padding: 20px;
-            width: 32%; /* Fixed width to allow 3 cards per row */
+            width: 32%;
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            /* Maintain consistent size */
             min-height: 200px;
         }
 
-        /* Ensures the text stays consistent and handles overflow gracefully */
         .course-title, .course-number, .instructor {
             white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; /* Add ellipsis (...) when text is too long */
+            text-overflow: ellipsis;
         }
 
         .white-box {
@@ -434,6 +432,13 @@
                         </div>
                         <p class="course-subject">${course['Subject'] || 'N/A'}</p>
                     `;
+
+                    // Attach event listener to the add button
+                    const addButton = card.querySelector('.add-button');
+                    addButton.addEventListener('click', () => {
+                        addEvent(course);
+                    });
+
                     cardContainer.appendChild(card);
                 });
 
@@ -441,7 +446,27 @@
                 subjectContainer.appendChild(subjectSection);
             }
         }
-    
+
+        function addEvent(course) {
+            const title = "&text=" + encodeURIComponent((course['Course Number'] || '') + " Final");
+            const location = "&location=" + encodeURIComponent(course['Location'] || '');
+            const date = course['Date']?.toString() || '';
+            const time = course['Time']?.toString() || '';
+
+            const day = date.split(' ')[1];
+            let startTime = time.slice(0, 2) + time.slice(3, 5); // format HHMM
+            const period = time.slice(-2).toLowerCase();
+
+            if (period === 'pm' && parseInt(startTime, 10) < 1200) {
+                startTime = (parseInt(startTime, 10) + 1200).toString(); // Convert to 24-hour format
+            }
+            
+            const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=202412${day}T${startTime}00/202412${day}T${(parseInt(startTime, 10) + 200).toString()}00`;
+
+            // Open the Google Calendar link in a new tab
+            window.open(googleCalLink, '_blank');
+        }
+
         function filterCourses() {
             const searchInput = document.querySelector('.search-bar input').value.toLowerCase();
             
@@ -461,27 +486,9 @@
             populateCards(filteredCourses);
         }
 
-        function addEvent() {
-            const title = "&text=" + (course['Course Number']?.toString() || '') + "+Final";
-            const location = "&location=" + (course['Location']?.toString() || '');
-            const date = (course['Date']?.toString() || '');
-            const a = date.indexOf(" ") + 1;
-            const day = date.slice(a+1, date.indexOf(" ", a));
-            const time = (course['Time']?.toString() || '');
-            a = date.indexOf(":") - 2;
-            time = time.slice(a - 2, a - 1) + time.slice(a + 1, a + 2);
-            date = "&dates=202412" + day;
-            if (date.includes("a")) {
-                time = "T" + time + "00";
-            } else if (date.includes("p")) {
-                time = "T" + (parseInt(time) + 1200).toString + "00";
-            }
-            return "https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!" + title + location + day + time;
-        }
-    
         window.onload = () => {
             loadSpreadsheet();
-    
+
             document.querySelector('.search-bar input').addEventListener('input', filterCourses);
         };
     </script>

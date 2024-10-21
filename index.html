@@ -460,6 +460,24 @@
             // Filter out entire sections that have no matching courses
             populateCards(filteredCourses);
         }
+
+        function addEvent() {
+            const title = "&text=" + (course['Course Number']?.toString() || '') + "+Final";
+            const location = "&location=" + (course['Location']?.toString() || '');
+            const date = (course['Date']?.toString() || '');
+            const a = date.indexOf(" ") + 1;
+            const day = date.slice(a+1, date.indexOf(" ", a));
+            const time = (course['Time']?.toString() || '');
+            a = date.indexOf(":") - 2;
+            time = time.slice(a - 2, a - 1) + time.slice(a + 1, a + 2);
+            date = "&dates=202412" + day;
+            if (date.includes("a")) {
+                time = "T" + time + "00";
+            } else if (date.includes("p")) {
+                time = "T" + (parseInt(time) + 1200).toString + "00";
+            }
+            return "https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!" + title + location + day + time;
+        }
     
         window.onload = () => {
             loadSpreadsheet();

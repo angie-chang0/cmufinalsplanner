@@ -560,7 +560,7 @@
             let year = fullString.getFullYear();
             let startTime = convertFormat(time.slice(0, 5), time.slice(5, 7));
             let endTime = convertFormat(time.slice(8, 13), time.slice(13, 15));
-            const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!&text=${encodeURIComponent(title)}&location=${encodeURIComponent(location)}&dates=${year}${month}${day}${startTime}/${year}${month}${day}${endTime}`;
+            const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}${month}${day}${startTime}/${year}${month}${day}${endTime}`;
             
             // const googleCalLink = document.getElementById('calendarLink');
             // Open the Google Calendar link in a new tab

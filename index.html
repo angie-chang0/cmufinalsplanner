@@ -513,28 +513,28 @@
                 subjectContainer.appendChild(subjectSection);
             }
         }
-
-        function addEvent(course) {
-            const currentYear = new Date().getFullYear(); // Get the current year
-            const title = "&text=" + encodeURIComponent(`${course['Course Number'] || ''} ${course['Course Title'] || ''} Final`);
-            const location = "&location=" + encodeURIComponent(course['Location'] || '');
-            const date = course['Date']?.toString() || '';
-            const time = course['Time']?.toString() || '';
-        
-            const day = date.split(' ')[1]; // Extract day from date string
-        
-            let startTime = time.slice(0, 2) + time.slice(3, 5); // Format HHMM
-            const period = time.slice(-2).toLowerCase();
-        
-            if (period === 'pm' && parseInt(startTime, 10) < 1200) {
-                startTime = (parseInt(startTime, 10) + 1200).toString(); // Convert to 24-hour format
-            }
-        
-            const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${currentYear}${date.split(' ')[0]}${day}T${startTime}00/${currentYear}${date.split(' ')[0]}${day}T${(parseInt(startTime, 10) + 200).toString()}00`;
-        
-            // Open the Google Calendar link in a new tab
-            window.open(googleCalLink, '_blank');
+    function addEvent(course) {
+        const title = "&text=" + encodeURIComponent(`${course['Course Number'] || ''} ${course['Course Title'] || ''} Final`);
+        const location = "&location=" + encodeURIComponent(course['Location'] || '');
+        const date = course['Date']?.toString() || '';
+        const time = course['Time']?.toString() || '';
+    
+        const currentYear = new Date().getFullYear(); // Get the current year
+        const day = date.split(' ')[1]; // Extract day from date string
+    
+        let startTime = time.slice(0, 2) + time.slice(3, 5); // Format HHMM
+        const period = time.slice(-2).toLowerCase();
+    
+        if (period === 'pm' && parseInt(startTime, 10) < 1200) {
+            startTime = (parseInt(startTime, 10) + 1200).toString(); // Convert to 24-hour format
         }
+    
+        const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${currentYear}${date.split(' ')[0]}${day}T${startTime}00/${currentYear}${date.split(' ')[0]}${day}T${(parseInt(startTime, 10) + 200).toString()}00`;
+    
+        // Open the Google Calendar link in a new tab
+        window.open(googleCalLink, '_blank');
+    }
+
 
 
 

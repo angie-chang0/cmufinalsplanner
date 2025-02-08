@@ -1,0 +1,24 @@
+{
+  "name": "cmufinalsplanner.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmufinalsplanner/cmufinalsplanner.github.io.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmufinalsplanner/cmufinalsplanner.github.io/issues"
+  },
+  "homepage": "https://github.com/cmufinalsplanner/cmufinalsplanner.github.io#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2",
+    "openai": "^4.83.0"
+  }
+}

@@ -186,12 +186,12 @@
         }
 
         .subject-section .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 20px;
-            overflow-x: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Ensures items align to the left */
+        gap: 20px;
         }
+
 
         .subject-section .card-container::-webkit-scrollbar {
             height: 8px;
@@ -208,15 +208,17 @@
         }
 
         .card {
-            background-color: #F9C491;
-            border-radius: 20px;
-            padding: 20px;
-            width: 32%;
-            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 200px;
+        background-color: #F9C491;
+        border-radius: 20px;
+        padding: 20px;
+        width: 350px;  /* Set a fixed width */
+        max-width: 350px; /* Ensures they don't grow too large */
+        min-width: 350px; /* Prevents shrinking */
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 200px;
         }
 
         .course-title, .course-number, .instructor {
@@ -275,10 +277,15 @@
         }
 
         .instructor {
-            font-size: 0.8rem;
-            color: #280A0A;
-            margin-top: 5px;
-        }
+        font-size: 0.8rem;
+        color: #280A0A;
+        margin-top: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%; /* Ensures truncation within the card */
+    }
+
 
         .course-details {
             display: flex;
@@ -319,6 +326,57 @@
             text-align: left;
             margin-top: 5px;
         }
+        .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .close-btn {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-content p {
+        margin: 10px 0;
+    }
+
+    .modal-content p:first-child {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+
+    .modal-content p:last-child {
+        font-size: 0.9rem;
+        color: #666;
+}
 
     </style>
 </head>
@@ -355,6 +413,14 @@
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
+            <p>Coded with love by Angie Chang and Kevin Shen</p>
+            <p>beta using fall 2024 data currently. email achang4@andrew.cmu.edu or kevinshe@andrew.cmu.edu</p>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
             <p>Created by Angie Chang</p>
         </div>
     </div>
@@ -365,7 +431,7 @@
         let coursesData = [];
 
         async function loadSpreadsheet() {
-            const file = 'data/sample_finals.xlsx'; 
+            const file = 'data/output.xlsx'; 
         
             try {
                 const response = await fetch(file);
@@ -415,7 +481,8 @@
                                 <div>
                                     <p class="course-number">${course['Course Number'] || 'N/A'}</p>
                                     <p class="course-title">${course['Course Title'] || 'N/A'}</p>
-                                    <p class="instructor">${course['Instructor'] || 'N/A'}</p>
+                                    <p class="instructor">${(course['Instructor'] || 'N/A').slice(0, 35)}${course['Instructor']?.length > 35 ? '...' : ''}</p>
+
                                 </div>
                                 <div class="add-button">+</div>
                             </div>
@@ -447,25 +514,38 @@
             }
         }
 
-        function addEvent(course) {
+        async function addEvent(course) {
             const title = "&text=" + encodeURIComponent((course['Course Number'] || '') + " Final");
             const location = "&location=" + encodeURIComponent(course['Location'] || '');
             const date = course['Date']?.toString() || '';
             const time = course['Time']?.toString() || '';
-
-            const day = date.split(' ')[1];
-            let startTime = time.slice(0, 2) + time.slice(3, 5); // format HHMM
-            const period = time.slice(-2).toLowerCase();
-
-            if (period === 'pm' && parseInt(startTime, 10) < 1200) {
-                startTime = (parseInt(startTime, 10) + 1200).toString(); // Convert to 24-hour format
+            const eventData = {
+                title: title,
+                location: location,
+                date: date,
+                time: time
+            };
+          
+            try {
+                const response = await fetch('/api/create-calendar-link', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify(eventData)
+                });
+          
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.json();
+            } catch (error) {
+                console.error('Error creating calendar link:', error);
             }
             
-            const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=202412${day}T${startTime}00/202412${day}T${(parseInt(startTime, 10) + 200).toString()}00`;
-
+            const googleCalLink = document.getElementById('calendarLink');
             // Open the Google Calendar link in a new tab
             window.open(googleCalLink, '_blank');
-        }
+          }
+
+
 
         function filterCourses() {
             const searchInput = document.querySelector('.search-bar input').value.toLowerCase();
@@ -485,6 +565,25 @@
             // Filter out entire sections that have no matching courses
             populateCards(filteredCourses);
         }
+
+        // Modal functionality
+        const modal = document.getElementById('modal');
+        const openModalBtn = document.getElementById('openModal');
+        const closeModalBtn = document.querySelector('.close-btn');
+
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
 
         window.onload = () => {
             loadSpreadsheet();

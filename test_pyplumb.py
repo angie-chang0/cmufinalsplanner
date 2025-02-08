@@ -4,32 +4,28 @@ import re
 
 pdf_path = "exams.pdf"
 
-# Define the column order you need
 columns = ["Course Number", "Course Title", "Instructor", "Time", "Location", "Date", "Section", "Subject"]
 data = []
 current_subject = None  # Track subject headers
 
 with pdfplumber.open(pdf_path) as pdf:
     for page in pdf.pages:
-        text = page.extract_text()  # Extract text from page
+        text = page.extract_text()
         if text:
             lines = text.split("\n")
             for line in lines:
-                # Identify subject headers
                 if re.match(r"^[A-Za-z&\s]+$", line.strip()) and len(line.strip().split()) < 5:
                     current_subject = line.strip()
 
-                # Match course details using regex
                 match = re.match(
-                    r"(\d{5,6})\s+(\S+)\s+(.+?)\s+([A-Za-z]+day, \w+ \d{1,2}, \d{4})\s+(\d{1,2}:\d{2}[ap]m-\d{1,2}:\d{2}[ap]m)\s+(Remote|In Person)\s+(.+?)\s+(.+)",
+                    r"(\d{5,6})\s+(\S+)\s+(.+?)\s+([A-Za-z]+day, \w+ \d{1,2}, \d{4})\s+(\d{1,2}:\d{2}[ap]m-\d{1,2}:\d{2}[ap]m)\s+(.+?)\s+([A-Za-z\s\(\)]+)$",
                     line
                 )
 
                 if match:
-                    course_number, section, course_title, date, time, delivery_mode, location, instructor = match.groups()
+                    course_number, section, course_title, date, time, location, instructor = match.groups()
                     data.append((course_number, course_title, instructor, time, location, date, section, current_subject))
 
-# Convert to DataFrame with the correct column order
 df = pd.DataFrame(data, columns=columns)
 
 # Save to Excel

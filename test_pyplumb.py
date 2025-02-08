@@ -21,13 +21,18 @@ with pdfplumber.open(pdf_path) as pdf:
 
                 # Match course details using regex
                 match = re.match(
-                    r"(\d{5,6})\s+(\S+)\s+(.+?)\s+([A-Za-z]+day, \w+ \d{1,2}, \d{4})\s+(\d{1,2}:\d{2}[ap]m-\d{1,2}:\d{2}[ap]m)\s+(Remote|In Person)\s+(.+?)\s+(.+)",
+                    r"(\d{5,6})\s+(\S+)\s+(.+?)\s+([A-Za-z]+day, \w+ \d{1,2}, \d{4})\s+(\d{1,2}:\d{2}[ap]m-\d{1,2}:\d{2}[ap]m)\s+(Remote|In Person)\s+(.+?)\s+([^\d]+)\s*(\d*)$",
                     line
                 )
 
                 if match:
-                    course_number, section, course_title, date, time, delivery_mode, location, instructor = match.groups()
-                    data.append((course_number, course_title, instructor, time, location, date, section, current_subject))
+                    course_number, section, course_title, date, time, delivery_mode, location, instructor, extra_numbers = match.groups()
+                    
+                    # If there are extra numbers, append them to location
+                    if extra_numbers:
+                        location += " " + extra_numbers
+
+                    data.append((course_number, course_title, instructor.strip(), time, location.strip(), date, section, current_subject))
 
 # Convert to DataFrame with the correct column order
 df = pd.DataFrame(data, columns=columns)

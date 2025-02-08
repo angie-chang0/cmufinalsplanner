@@ -514,6 +514,18 @@
             }
         }
 
+        function convertFormat(time, period) {
+            const [hour, minute] = time.split(':');
+            let formattedHour = parseInt(hour);
+            if (period === 'pm') {
+                formattedHour += 12;
+            }
+            if (formattedHour < 10) {
+                return `T0${formattedHour}${minute}00`
+            }
+            return `T${formattedHour}${minute}00`;
+        }
+
         async function addEvent(course) {
             const title = "&text=" + encodeURIComponent((course['Course Number'] || '') + " Final");
             const location = "&location=" + encodeURIComponent(course['Location'] || '');

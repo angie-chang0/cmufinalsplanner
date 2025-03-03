@@ -563,7 +563,7 @@
             let dateString = date.split(' ')[1] + " " + date.split(' ')[2] + " " + date.split(' ')[3];
             const fullString = new Date(dateString + " 03:24:00");
             let month = formatNumber(fullString.getMonth() + 1);
-            let day = fullString.getDate();
+            let day = formatNumber(fullString.getDate());
             let year = fullString.getFullYear();
             let startTime = convertFormat(time.slice(0, 5), time.slice(5, 7));
             let endTime = convertFormat(time.slice(8, 13), time.slice(13, 15));

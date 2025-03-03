@@ -560,16 +560,15 @@
             let year = fullString.getFullYear();
             let startTime = convertFormat(time.slice(0, 5), time.slice(5, 7));
             let endTime = convertFormat(time.slice(8, 13), time.slice(13, 15));
-            const googleCalLink = '';
             if (month < 10) {
                 if (day < 10) {
-                    googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}0${month}0${day}${startTime}/${year}${month}${day}${endTime}`;
+                    const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}0${month}0${day}${startTime}/${year}0${month}0${day}${endTime}`;
                 }
                 else {
-                    googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}0${month}${day}${startTime}/${year}${month}${day}${endTime}`;
+                    const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}0${month}${day}${startTime}/${year}0${month}${day}${endTime}`;
                 }
             } else {
-                googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}${month}${day}${startTime}/${year}${month}${day}${endTime}`;
+                const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}${month}${day}${startTime}/${year}${month}${day}${endTime}`;
             }
             
             

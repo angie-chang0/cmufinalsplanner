@@ -526,6 +526,12 @@
             return `T${formattedHour}${minute}00`;
         }
 
+        function formatNumber (num) {
+            if (num < 10) {
+                return `0${num}`;
+            }
+        }
+
         async function addEvent(course) {
             const title = "&text=" + encodeURIComponent((course['Course Number'] || '') + " Final");
             const location = "&location=" + encodeURIComponent(course['Location'] || '');
@@ -555,22 +561,12 @@
 
             let dateString = date.split(' ')[1] + " " + date.split(' ')[2] + " " + date.split(' ')[3];
             const fullString = new Date(dateString + " 03:24:00");
-            let month = fullString.getMonth() + 1;
-            let day = fullString.getDate();
+            let month = formatNumber(fullString.getMonth() + 1);
+            let day = formatNumber(fullString.getDate());
             let year = fullString.getFullYear();
             let startTime = convertFormat(time.slice(0, 5), time.slice(5, 7));
             let endTime = convertFormat(time.slice(8, 13), time.slice(13, 15));
-            if (month < 10) {
-                if (day < 10) {
-                    const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}0${month}0${day}${startTime}/${year}0${month}0${day}${endTime}`;
-                }
-                else {
-                    const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}0${month}${day}${startTime}/${year}0${month}${day}${endTime}`;
-                }
-            } else {
-                const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}${month}${day}${startTime}/${year}${month}${day}${endTime}`;
-            }
-            
+            const googleCalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&details=Good+luck+on+your+final!${title}${location}&dates=${year}${month}${day}${startTime}/${year}${month}${day}${endTime}`;
             
             // const googleCalLink = document.getElementById('calendarLink');
             // Open the Google Calendar link in a new tab
